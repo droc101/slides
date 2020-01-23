@@ -1,0 +1,211 @@
+<html>
+<head>
+	<title>RichText Slides BETA!</title>
+	<style type="text/css">table {
+       height:100%; 
+        width:100%;
+      background:#eee;
+      padding:5px;
+      overflow:scroll;
+      }
+      button {
+        border: 1px solid #ccc;
+        background: #ffffff;
+        /*width:100%;*/
+        height:30px;
+        margin-bottom:5px;
+      }
+      select {
+        border: 1px solid #ccc;
+        background: #ffffff;
+        /*width:100%;*/
+        height:30px;
+        margin-bottom:5px;
+      }
+      input {
+        border: 1px solid #ccc;
+        background: #ffffff;
+        /*width:100%;*/
+        height:30px;
+        margin-bottom:5px;
+      }
+      #out {
+        border: 1px solid #cccccc;
+        background:#fff;
+        padding:5px;
+      }
+      #s {
+        border: 1px solid #000;
+        background:#fff;
+        overflow:scroll;
+        height:100%;
+        padding:5px;
+      }
+      .slide-btn {
+        border: 1px solid #ccc;
+        background: #ffffff;
+        width:100%;
+        height:30px;
+        margin-bottom:5px;
+      }
+	</style>
+	<script>
+    var slides = ["Click To Edit Slide!<br>You can use keyboard shortcuts."];
+    var currentSlide = 0;
+  function addSlide() {
+    var i = slides.length;
+    slides[i] = "Click To Edit Slide!";
+    document.getElementById("s").innerHTML += '<br><button class="slide-btn" onclick="changeSlide(' + i + ');">Slide ' + i + '</button>';
+  }
+  function editSlide() {
+    slides[currentSlide] = document.getElementById("out").innerHTML;
+  }
+  function changeSlide(to) {
+    currentSlide = to;
+    document.getElementById("out").innerHTML = slides[currentSlide];
+  }
+  
+  </script><script>
+  function changeFont(font) {
+  document.execCommand('fontName', false, font.value);
+    font.value = "f";
+}
+      
+      function changeSize(font) {
+  	document.execCommand("fontSize", false, font.value);
+        font.value = "f";
+}
+      function PrintElem(elem)
+{
+    childWindow = window.open('','childWindow','location=yes, menubar=yes, toolbar=yes');//open a window
+        childWindow.document.open();//make it a document
+        childWindow.document.write('<html><head><title>Print</title></head><body>');//add the html's starting tags
+        childWindow.document.write(document.getElementById('document').innerHTML);//add the textarea
+        childWindow.document.write('</body></html>');//close the html
+        childWindow.print();//print it and wait for completion
+        childWindow.document.close();//close the document
+        childWindow.close();//close the window
+}
+      function setColor() {
+
+        document.execCommand("foreColor", false, document.getElementById('color').value);
+      }
+      function save() {
+        var a = document.body.appendChild(
+        document.createElement("a")
+    );
+a.download = document.getElementById('name').value;
+a.href = "data:text/html," + document.getElementById("document").innerHTML;
+
+        a.click();
+      }
+      
+      function onFileLoad(elementId, event) {
+    document.getElementById(elementId).innerHTML = event.target.result;
+}
+
+function onChooseFile(event, onLoadFileHandler) {
+    if (typeof window.FileReader !== 'function')
+        throw ("The file API is not supported by this browser.");
+    let input = event.target;
+    if (!input)
+        throw ("This browser does not support the event object.");
+    if (!input.files)
+        throw ("This browser does not support the file input.");
+    if (!input.files[0])
+        return undefined;
+    let file = input.files[0];
+    let fr = new FileReader();
+    fr.onload = onLoadFileHandler;
+    fr.readAsText(file);
+}
+      function about() {
+        alert("RichText Slides 1.0: A Slideshow Editor");
+      }
+      function justify(obj) {
+        if (obj.value == "l") {
+          document.execCommand("justifyLeft");
+        }else if (obj.value == "c") {
+          document.execCommand("justifyCenter");
+        }else if (obj.value == "r") {
+          document.execCommand("justifyRight");
+        }
+        obj.value = "n"
+      }
+      
+      function lists(body) {
+        if (body.value == 'bulleted') {
+          document.execCommand('insertUnorderedList');
+        }else if (body.value == 'numbered') {
+          document.execCommand('insertOrderedList');
+        }
+        body.value = 'l';
+      }
+      
+      function insert(body) {
+        if (body.value == 'image') {
+          var imgUrl = prompt('Enter the URL of the image');
+          document.execCommand('insertImage', false, imgUrl);
+        }else if (body.value == 'url') {
+          var url = prompt('Enter the URL of the link');
+          document.execCommand('createLink', false, url);
+        }else if (body.value == 'rm-url') {
+          document.execCommand('unlink');
+        }else if (body.value == 'bl') {
+          document.execCommand('insertUnorderedList');
+        }else if (body.value == 'nl') {
+          document.execCommand('insertOrderedList');
+        }else if (body.value == 'hr') {
+          document.execCommand('insertHorizontalRule');
+        }
+        body.value = 'i';
+      }
+      function styles(body) {
+        document.execCommand('formatBlock', false, body.value);
+        body.value = 's';
+      }
+      
+      function indents(body) {
+        if (body.value == 'in') {
+          document.execCommand('indent');
+        }else if (body.value == 'out') {
+          document.execCommand('outdent');
+        }
+        body.value = 'i';
+      }
+  function preview() {
+      
+        childWindow = window.open('','childWindow','location=yes, menubar=yes, toolbar=yes');//open a window
+        childWindow.document.open();//make it a document
+        childWindow.document.write('<html><head><title>Print Preview</title></head><body style="background-color:#eee;overflow:scroll;"><center><div style="width:8.5in;height:11in;background-color: #fff;border:1px solid #ccc; padding:1in;" align="left">');//add the html's starting tags
+        childWindow.document.write(document.getElementById('document').innerHTML);//add the textarea
+        childWindow.document.write('</div></center></body></html>');//close the html
+        //childWindow.print();//print it and wait for completion
+        //childWindow.document.close();//close the document
+        //childWindow.close();//close the window
+  }
+
+  </script>
+</head>
+<body onload="changeSlide(0);" style="cursor: auto; padding: 0px; margin: 0px; overflow: hidden;">
+<table>
+	<tbody>
+		<tr>
+			<td style="width: 90px;"><button class="slide-btn" onclick="addSlide();">Add Slide</button></td>
+			<td style="width: 1048px;">
+			<div style="background:#fff;padding:5px 10px;border-bottom:1px solid #999;"><label><a onclick="about();"><strong><span style="font-family:arial,helvetica,sans-serif;">RichText Slides 1.0</span></strong></a>&nbsp;</label><br />
+			<button onclick="document.execCommand('undo');">Undo</button><button onclick="document.execCommand('redo');">Undo</button><button onclick="document.execCommand('bold',false,null);"><b>B</b></button><button onclick="document.execCommand('underline',false,null);"><u>U</u></button><button onclick="document.execCommand('italic',false,null);"><i>I</i></button><button onclick="document.execCommand('strikethrough',false,null);"><strike>S</strike></button><button onclick="document.execCommand('superscript')"><sup>S</sup></button><button onclick="document.execCommand('subscript')"><sub>S</sub></button><select id="select_font" onchange="changeFont(this);"><option disabled="disabled" selected="selected" value="f">Font</option><option value="Arial">Arial</option><option value="Sans Serif">Sans Serif</option><option value="Comic Sans MS">Comic Sans MS</option><option value="Times New Roman">Times New Roman (Default)</option><option value="Courier New">Courier New</option><option value="Verdana">Verdana</option><option value="Trebuchet MS">Trebuchet MS</option><option value="Arial Black">Arial Black</option><option value="Impact">Impact</option><option value="Bookman">Bookman</option><option value="Garamond">Garamond</option><option value="Palatino">Palatino</option><option value="Georgia">Georgia</option></select><select onchange="changeSize(this);"><option disabled="disabled" selected="selected" value="f">Font Size</option><option value="1">Small</option><option value="3">Normal</option><option value="5">Large</option><option value="7">X Large</option></select><select onchange="styles(this);"><option disabled="disabled" selected="selected" value="s">Styles</option><option value="H1">Heading 1</option><option value="H2">Heading 2</option><option value="H3">Heading 3</option><option value="p">Paragraph</option><option value="pre">Preformatted</option></select><input id="color" onchange="setColor()" title="Font Color" type="color" /><select onchange="justify(this);"><option disabled="disabled" selected="selected" value="n">Justify</option><option value="l">Left</option><option value="c">Center</option><option value="r">Right</option></select><select onchange="insert(this);"><option disabled="disabled" selected="selected" value="i">Insert...</option><option value="image">Image</option><option value="url">URL</option><option value="rm-url">Remove URL</option><option value="bl">Bullet List</option><option value="nl">Numbered List</option><option vlaue="hr">Horizontal Rule</option></select><select onchange="indents(this);"><option disabled="disabled" selected="selected" value="i">Indents</option><option value="in">Indent</option><option value="out">Outdent</option></select><button onclick="document.execCommand('removeFormat');">ClFt</button></div>
+			</td>
+		</tr>
+		<tr style="height:90%;">
+			<td id="s-td" style="overflow-v:scroll;vertical-align:top;">
+			<div id="s"><button class="slide-btn" onclick="changeSlide(0);">Slide 0</button></div>
+			</td>
+			<td style="width: 1048px;">
+			<div contenteditable="" id="out" oninput="editSlide();" style="width:100%;height:100%;">Click To Edit Slide!</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</body>
+</html>
